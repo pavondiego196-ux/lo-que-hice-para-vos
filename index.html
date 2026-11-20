@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Para vos 💙</title>
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body {
@@ -350,7 +352,17 @@
       const distanciaArrastre = Math.hypot(e.clientX - inicioX, e.clientY - inicioY);
       // Si fue un toque corto (no un deslizamiento largo), avanza y explota
       if (distanciaArrastre < 12) {
-        if (!iniciado) { musica.play().catch(() => {}); iniciado = true; setTimeout(mostrarSusurroEsquina, 5000); }
+        if (!iniciado) {
+  musica.play().catch(() => {});
+  iniciado = true;
+  setTimeout(mostrarSusurroEsquina, 5000);
+  const docEl = document.documentElement;
+  if (docEl.requestFullscreen) {
+    docEl.requestFullscreen().catch(() => {});
+  } else if (docEl.webkitRequestFullscreen) {
+    docEl.webkitRequestFullscreen();
+  }
+}
         explotarEn(e.clientX, e.clientY);
         if (esperandoToque) avanzarEscena();
       }
